@@ -89,6 +89,9 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 is DataState.Error -> {
                     it.exception.printStackTrace()
                     pvLoad.makeGone()
+                    btnLogin.makeVisible()
+                    tvUno.makeVisible()
+                    rlFields.makeVisible()
                     FieldConverter.getString(R.string.default_error)?.let { error ->
                         Snackbar.make(btnLogin, error, Snackbar.LENGTH_LONG)
                             .setAction("Action", null)
@@ -97,6 +100,9 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 }
                 is DataState.Success -> {
                     pvLoad.makeGone()
+                    btnLogin.makeVisible()
+                    tvUno.makeVisible()
+                    rlFields.makeVisible()
                     if (it.data == "0") {
                         Snackbar.make(btnLogin, "Этот email уже занят", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
@@ -118,6 +124,9 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 is DataState.Error -> {
                     it.exception.printStackTrace()
                     pvLoad.makeGone()
+                    btnLogin.makeVisible()
+                    tvUno.makeVisible()
+                    rlFields.makeVisible()
                     FieldConverter.getString(R.string.default_error)?.let { error ->
                         Snackbar.make(btnLogin, error, Snackbar.LENGTH_LONG)
                             .setAction("Action", null)
@@ -126,6 +135,9 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 }
                 is DataState.Success -> {
                     pvLoad.makeGone()
+                    btnLogin.makeVisible()
+                    tvUno.makeVisible()
+                    rlFields.makeVisible()
                     if (it.data == "0") {
                         Snackbar.make(
                             btnLogin,
