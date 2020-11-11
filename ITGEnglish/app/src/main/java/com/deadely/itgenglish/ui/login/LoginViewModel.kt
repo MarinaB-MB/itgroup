@@ -1,52 +1,139 @@
 package com.deadely.itgenglish.ui.login
 
-import android.util.Patterns
+import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.deadely.itgenglish.R
-import com.deadely.itgenglish.login.data.LoginRepository
-import com.deadely.itgenglish.login.data.Result
+import com.deadely.itgenglish.base.BaseViewModel
+import com.deadely.itgenglish.repository.Repository
+import com.deadely.itgenglish.utils.*
+import com.deadely.itgenglish.utils.PreferencesManager.get
+import com.deadely.itgenglish.utils.PreferencesManager.set
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel @ViewModelInject constructor(
+    private val repository: Repository,
+    @ApplicationContext private val context: Context
+) : BaseViewModel() {
 
-    private val _loginForm = MutableLiveData<LoginFormState>()
-    val loginFormState: LiveData<LoginFormState> = _loginForm
+    private val preferences = PreferencesManager.defaultPrefs(context)
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    private var mValidError = MutableLiveData<String>()
+    var validError: LiveData<String> = mValidError
 
-    fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
+    private var mIsLogin = MutableLiveData<Boolean>()
+    var isLogin: LiveData<Boolean> = mIsLogin
 
-        if (result is Result.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+    private val mAuthToken = MutableLiveData<DataState<String>>()
+    val authToken: LiveData<DataState<String>>
+        get() = mAuthToken
+
+    private val mLoginToken = MutableLiveData<DataState<String>>()
+    val loginToken: LiveData<DataState<String>>
+        get() = mLoginToken
+
+    init {
+        mIsLogin.postValue(preferences[IS_LOGIN, false])
+    }
+
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            repository.login(email, password)
+                .onEach { dataState -> subscribeData(dataState, GET_LOGIN) }
+                .launchIn(viewModelScope)
         }
     }
 
-    fun loginDataChanged(username: String, password: String) {
-        if (!isUserNameValid(username)) {
-            _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
-        } else if (!isPasswordValid(password)) {
-            _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
-        } else {
-            _loginForm.value = LoginFormState(isDataValid = true)
+    fun setMode(isLogin: Boolean) {
+        preferences[IS_LOGIN] = isLogin
+        mIsLogin.postValue(preferences[IS_LOGIN, false])
+    }
+
+    fun getAuthToken(email: String, password: String) {
+        viewModelScope.launch {
+            repository.getAuth(email, password)
+                .onEach { dataState -> subscribeData(dataState, GET_AUTH_TOKEN) }
+                .launchIn(viewModelScope)
         }
     }
 
-    private fun isUserNameValid(username: String): Boolean {
-        return if (username.contains('@')) {
-            Patterns.EMAIL_ADDRESS.matcher(username).matches()
-        } else {
-            username.isNotBlank()
+    private fun subscribeData(dataState: DataState<String>, code: String) {
+        when (dataState) {
+            is DataState.Loading -> {
+                when (code) {
+                    GET_AUTH_TOKEN -> {
+                        mAuthToken.postValue(DataState.Loading)
+                    }
+                    GET_LOGIN -> {
+                        mLoginToken.postValue(DataState.Loading)
+                    }
+                }
+            }
+            is DataState.Error -> {
+                when (code) {
+                    GET_AUTH_TOKEN -> {
+                        mAuthToken.postValue(DataState.Error(dataState.exception))
+                    }
+                    GET_LOGIN -> {
+                        mLoginToken.postValue(DataState.Error(dataState.exception))
+                    }
+                }
+
+            }
+            is DataState.Success -> {
+                when (code) {
+                    GET_AUTH_TOKEN -> {
+                        mAuthToken.postValue(DataState.Success(dataState.data))
+                    }
+                    GET_LOGIN -> {
+                        mLoginToken.postValue(DataState.Success(dataState.data))
+                    }
+                }
+            }
         }
     }
 
-    private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
+    fun isEmailValid(email: String): Boolean {
+        return when {
+            email.trim().isEmpty() -> {
+                mValidError.postValue(FieldConverter.getString(R.string.empty_error))
+                false
+            }
+            !email.contains(".") || !email.contains("@") -> {
+                mValidError.postValue(FieldConverter.getString(R.string.valid_email_error))
+                false
+            }
+            else -> {
+                mValidError.postValue(null)
+                true
+            }
+        }
+    }
+
+
+    fun isPasswordValid(password: String): Boolean {
+        return when {
+            password.trim().isEmpty() -> {
+                mValidError.postValue(FieldConverter.getString(R.string.empty_error))
+                false
+            }
+            password.length <= 5 -> {
+                mValidError.postValue(FieldConverter.getString(R.string.password_length_email_error))
+                false
+            }
+            else -> {
+                mValidError.postValue(null)
+                true
+            }
+        }
+    }
+
+    fun setToken(token: String) {
+        preferences[TOKEN] = token
     }
 }

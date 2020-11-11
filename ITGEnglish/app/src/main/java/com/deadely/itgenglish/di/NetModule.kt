@@ -44,7 +44,7 @@ object NetModule {
     @Singleton
     @Provides
     fun provideGsonBuilder(): Gson {
-        return GsonBuilder().create()
+        return GsonBuilder().setLenient().create()
     }
 
     @Singleton

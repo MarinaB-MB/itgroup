@@ -1,103 +1,152 @@
 package com.deadely.itgenglish.ui.login
 
-import android.app.Activity
-import android.os.Bundle
-import android.view.inputmethod.EditorInfo
-import android.widget.Toast
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
+import android.graphics.Paint
+import androidx.activity.viewModels
 import com.deadely.itgenglish.R
-import com.deadely.itgenglish.extensions.afterTextChanged
+import com.deadely.itgenglish.base.BaseActivity
 import com.deadely.itgenglish.extensions.makeGone
 import com.deadely.itgenglish.extensions.makeVisible
+import com.deadely.itgenglish.ui.main.MainActivity
+import com.deadely.itgenglish.utils.DataState
+import com.deadely.itgenglish.utils.FieldConverter
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
-    private lateinit var loginViewModel: LoginViewModel
+@AndroidEntryPoint
+class LoginActivity : BaseActivity(R.layout.activity_login) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initObservable()
-        setListeners()
+    private val loginViewModel: LoginViewModel by viewModels()
+
+    private var isLogin = false
+
+    override fun initView() {
+        supportActionBar?.hide()
+        if (isLogin) {
+            showLoginMode()
+        } else {
+            showRegMode()
+        }
+        tvUno.paintFlags = tvUno.paintFlags or Paint.UNDERLINE_TEXT_FLAG
     }
 
-    private fun setListeners() {
-        etUsername.afterTextChanged {
-            loginViewModel.loginDataChanged(
-                etUsername.text.toString(),
-                etPassword.text.toString()
-            )
-        }
+    private fun showLoginMode() {
+        btnLogin.text = getString(R.string.login)
+        tvUno.text = getString(R.string.account_no_exist)
+    }
 
-        etPassword.apply {
-            afterTextChanged {
-                loginViewModel.loginDataChanged(
-                    etUsername.text.toString(),
+    private fun showRegMode() {
+        btnLogin.text = getString(R.string.register)
+        tvUno.text = getString(R.string.is_account_exist)
+    }
+
+    override fun setListeners() {
+        tvUno.setOnClickListener {
+            loginViewModel.setMode(!isLogin)
+        }
+        btnLogin.setOnClickListener {
+            if (loginViewModel.isEmailValid(etEmail.text.toString()) && loginViewModel.isPasswordValid(
                     etPassword.text.toString()
                 )
-            }
-
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            etUsername.text.toString(),
-                            etPassword.text.toString()
-                        )
+            ) {
+                if (isLogin) {
+                    loginViewModel.login(etEmail.text.toString(), etPassword.text.toString())
+                } else {
+                    loginViewModel.getAuthToken(
+                        etEmail.text.toString(),
+                        etPassword.text.toString()
+                    )
                 }
-                false
-            }
-
-            btnLogin.setOnClickListener {
-                pvLoading.makeVisible()
-                loginViewModel.login(etUsername.text.toString(), etPassword.text.toString())
             }
         }
     }
 
-    private fun initObservable() {
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
-
-        loginViewModel.loginFormState.observe(
-            this@LoginActivity,
-            Observer {
-                val loginState = it ?: return@Observer
-                btnLogin.isEnabled = loginState.isDataValid
-                loginState.usernameError?.let {
-                    etUsername.error = getString(loginState.usernameError)
+    override fun initObserver() {
+        loginViewModel.validError.observe(this, {
+            it?.let {
+                Snackbar.make(btnLogin, it, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show()
+            }
+        })
+        loginViewModel.isLogin.observe(this, {
+            isLogin = it
+            if (isLogin) {
+                showLoginMode()
+            } else {
+                showRegMode()
+            }
+        })
+        loginViewModel.authToken.observe(this, {
+            when (it) {
+                is DataState.Loading -> {
+                    pvLoad.makeVisible()
+                    btnLogin.makeGone()
+                    tvUno.makeGone()
+                    rlFields.makeGone()
                 }
-                loginState.passwordError?.let {
-                    etUsername.error = getString(loginState.passwordError)
+                is DataState.Error -> {
+                    it.exception.printStackTrace()
+                    pvLoad.makeGone()
+                    FieldConverter.getString(R.string.default_error)?.let { error ->
+                        Snackbar.make(btnLogin, error, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null)
+                            .show()
+                    }
+                }
+                is DataState.Success -> {
+                    pvLoad.makeGone()
+                    if (it.data == "0") {
+                        Snackbar.make(btnLogin, "Этот email уже занят", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    } else {
+                        loginViewModel.setToken(it.data)
+                        openMainScreen()
+                    }
                 }
             }
-        )
-
-        loginViewModel.loginResult.observe(
-            this@LoginActivity,
-            Observer {
-                val loginResult = it ?: return@Observer
-
-                pvLoading.makeGone()
-                loginResult.error?.let {
-                    showLoginFailed(loginResult.error)
+        })
+        loginViewModel.loginToken.observe(this, {
+            when (it) {
+                is DataState.Loading -> {
+                    pvLoad.makeVisible()
+                    btnLogin.makeGone()
+                    tvUno.makeGone()
+                    rlFields.makeGone()
                 }
-                loginResult.success?.let {
-                    updateUiWithUser(loginResult.success)
+                is DataState.Error -> {
+                    it.exception.printStackTrace()
+                    pvLoad.makeGone()
+                    FieldConverter.getString(R.string.default_error)?.let { error ->
+                        Snackbar.make(btnLogin, error, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null)
+                            .show()
+                    }
                 }
-                setResult(Activity.RESULT_OK)
-                finish()
+                is DataState.Success -> {
+                    pvLoad.makeGone()
+                    if (it.data == "0") {
+                        Snackbar.make(
+                            btnLogin,
+                            "Возникла ошибка при авторизации",
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction("Action", null).show()
+                    } else {
+                        loginViewModel.setToken(it.data)
+                        openMainScreen()
+                    }
+                }
             }
+        }
         )
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    private fun openMainScreen() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
-    }
+    override fun getExtras() {}
 }

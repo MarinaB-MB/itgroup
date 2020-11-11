@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     android:overScrollMode="never"
     android:padding="16dp"
-    tools:context=".ui.login.LoginActivity"
+    tools:context=".ui.reg.RegisterActivity"
     tools:ignore="SpUsage,ContentDescription,Autofill">
 
     <RelativeLayout
@@ -32,19 +32,18 @@
 
                 <ImageView
                     android:id="@+id/ivEmail"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_email" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_toEndOf="@id/ivEmail"
                     android:fontFamily="@font/rubik"
                     android:text="@string/email"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </RelativeLayout>
 
             <EditText
@@ -52,13 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rlEmail"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:ems="10"
                 android:fontFamily="@font/rubik"
                 android:hint="@string/example_email"
                 android:inputType="textEmailAddress"
-                android:maxLength="35"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -72,19 +69,18 @@
 
                 <ImageView
                     android:id="@+id/ivPassword"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_baseline_security_24" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_toEndOf="@id/ivPassword"
                     android:fontFamily="@font/rubik"
                     android:text="@string/password"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </RelativeLayout>
 
             <EditText
@@ -92,54 +88,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rlPassword"
-                android:layout_centerVertical="true"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:ems="10"
                 android:fontFamily="@font/rubik"
                 android:hint="@string/small_password"
                 android:inputType="textPassword"
-                android:maxLength="35"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tvUno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btnLogin"
-            android:fontFamily="@font/rubik"
-            android:paddingVertical="@dimen/activity_horizontal_margin"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="@string/is_account_exist" />
-
-        <Button
-            android:id="@+id/btnLogin"
-            style="@style/RoundedButtonWithWhiteText"
+            android:id="@+id/btnReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_btn"
             android:fontFamily="@font/rubik"
             android:paddingVertical="10dp"
-            android:text="@string/login"
+            android:text="@string/register"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="16sp" />
-
-
-        <ProgressBar
-            android:id="@+id/pvLoad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/progress_bar"
-            android:progressDrawable="@drawable/progress_bar"
-            android:visibility="gone" />
+            android:textSize="20sp" />
     </RelativeLayout>
-
 </androidx.core.widget.NestedScrollView>

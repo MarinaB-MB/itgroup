@@ -2,6 +2,7 @@ package com.deadely.itgenglish.extensions
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -26,3 +27,13 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }
+
+fun View.makeGone() {
+    visibility = View.GONE
+}
+
+fun View.makeVisible() {
+    visibility = View.VISIBLE
+}
+
+

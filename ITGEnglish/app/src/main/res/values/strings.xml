@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">Crimea3d English</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Личный кабинет</string>
 
     <string name="menu_education">education</string>
@@ -16,13 +11,18 @@
     <string name="dictionary">Словарь</string>
     <string name="grammar">Грамматика</string>
     <string name="favorite">Избранное</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+
+    <string name="register">Регистрация</string>
+    <string name="small_password">password</string>
+    <string name="password">Password</string>
+    <string name="example_email">example@mail.ru</string>
+    <string name="email">Email</string>
+    <string name="login">Авторизация</string>
+    <string name="is_account_exist">Уже есть аккаунт?</string>
+    <string name="account_no_exist">Нет аккаунта?</string>
+    <string name="empty_error">Поле не должно быть пустым</string>
+    <string name="valid_email_error">Введите корректный email</string>
+    <string name="password_length_email_error">Длина пароля должна быть больше 5 символов</string>
+    <string name="default_error">Возникла ошибка. Попробуйте еще раз</string>
+
 </resources>

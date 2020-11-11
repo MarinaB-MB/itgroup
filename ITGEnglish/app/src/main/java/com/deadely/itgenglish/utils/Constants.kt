@@ -10,5 +10,14 @@ const val START_LOGIN_SCREEN = 1
 const val BASE_URL = "http://itgsite.somee.com/"
 
 const val SEND_AUDIO = "api/verify"
-const val AUTH = "api/auth"
+const val AUTH = "Auth/Register"
+const val LOGIN = "Auth/Login"
 const val GET_AUDIO = "api/audio"
+
+
+// preferences
+const val IS_LOGIN = "is_login_mode"
+const val TOKEN = "token"
+
+const val GET_AUTH_TOKEN = "0"
+const val GET_LOGIN = "1"

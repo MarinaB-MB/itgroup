@@ -1,41 +1,52 @@
 package com.deadely.itgenglish.ui.splash
 
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import com.deadely.itgenglish.R
+import com.deadely.itgenglish.base.BaseActivity
 import com.deadely.itgenglish.ui.login.LoginActivity
 import com.deadely.itgenglish.ui.main.MainActivity
-import com.deadely.itgenglish.utils.START_LOGIN_SCREEN
+import dagger.hilt.android.AndroidEntryPoint
 
-class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+@AndroidEntryPoint
+class SplashActivity : BaseActivity(R.layout.activity_splash) {
+
+    private val splashViewModel: SplashViewModel by viewModels()
+
+    override fun initObserver() {
+        splashViewModel.isLogin.observe(this, {
+            if (it) {
+                openMainScreen()
+            } else {
+                openRegisterScreen()
+            }
+        })
+    }
+
+    private fun openRegisterScreen() {
         Handler().postDelayed(
-            {
-                startActivityForResult(
-                    Intent(this@SplashActivity, LoginActivity::class.java),
-                    START_LOGIN_SCREEN
-                )
-            },
+            { startActivity(Intent(this@SplashActivity, LoginActivity::class.java)) },
             2 * 1000.toLong()
         )
     }
 
     private fun openMainScreen() {
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-        finish()
+        Handler().postDelayed(
+            { startActivity(Intent(this@SplashActivity, MainActivity::class.java)) },
+            2 * 1000.toLong()
+        )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            START_LOGIN_SCREEN -> {
-                when (resultCode) {
-                    RESULT_OK -> openMainScreen()
-                }
-            }
-        }
+    override fun initView() {
+
+    }
+
+    override fun setListeners() {
+
+    }
+
+    override fun getExtras() {
+
     }
 }
