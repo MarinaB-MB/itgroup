@@ -7,6 +7,9 @@ import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.deadely.itgenglish.R
+import com.deadely.itgenglish.utils.FieldConverter
+import com.google.android.material.snackbar.Snackbar
 
 fun Fragment.setActivityTitle(@StringRes id: Int) {
     (activity as? AppCompatActivity)?.supportActionBar?.title = getString(id)
@@ -36,4 +39,12 @@ fun View.makeVisible() {
     visibility = View.VISIBLE
 }
 
+fun snack(view: View, id: Int) {
+    Snackbar.make(view, FieldConverter.getString(id).toString(), Snackbar.LENGTH_LONG)
+        .setAction(FieldConverter.getString(R.string.action), null).show()
+}
 
+fun snack(view: View, text: String) {
+    Snackbar.make(view, text, Snackbar.LENGTH_LONG)
+        .setAction(FieldConverter.getString(R.string.action), null).show()
+}

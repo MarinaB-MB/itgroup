@@ -4,6 +4,6 @@
     <item
         android:id="@+id/action_personal_account"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/action_settings"
+        android:title="@string/personal_account"
         app:showAsAction="always" />
 </menu>

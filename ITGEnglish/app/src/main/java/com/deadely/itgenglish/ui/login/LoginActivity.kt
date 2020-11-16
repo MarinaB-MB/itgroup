@@ -7,10 +7,11 @@ import com.deadely.itgenglish.R
 import com.deadely.itgenglish.base.BaseActivity
 import com.deadely.itgenglish.extensions.makeGone
 import com.deadely.itgenglish.extensions.makeVisible
+import com.deadely.itgenglish.extensions.snack
 import com.deadely.itgenglish.ui.main.MainActivity
 import com.deadely.itgenglish.utils.DataState
+import com.deadely.itgenglish.utils.EMAIL_IS_USED
 import com.deadely.itgenglish.utils.FieldConverter
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -30,16 +31,6 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
             showRegMode()
         }
         tvUno.paintFlags = tvUno.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-    }
-
-    private fun showLoginMode() {
-        btnLogin.text = getString(R.string.login)
-        tvUno.text = getString(R.string.account_no_exist)
-    }
-
-    private fun showRegMode() {
-        btnLogin.text = getString(R.string.register)
-        tvUno.text = getString(R.string.is_account_exist)
     }
 
     override fun setListeners() {
@@ -66,8 +57,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     override fun initObserver() {
         loginViewModel.validError.observe(this, {
             it?.let {
-                Snackbar.make(btnLogin, it, Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null).show()
+                snack(btnLogin, it)
             }
         })
         loginViewModel.isLogin.observe(this, {
@@ -81,31 +71,19 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         loginViewModel.authToken.observe(this, {
             when (it) {
                 is DataState.Loading -> {
-                    pvLoad.makeVisible()
-                    btnLogin.makeGone()
-                    tvUno.makeGone()
-                    rlFields.makeGone()
+                    hideContent()
                 }
                 is DataState.Error -> {
                     it.exception.printStackTrace()
-                    pvLoad.makeGone()
-                    btnLogin.makeVisible()
-                    tvUno.makeVisible()
-                    rlFields.makeVisible()
+                    showContent()
                     FieldConverter.getString(R.string.default_error)?.let { error ->
-                        Snackbar.make(btnLogin, error, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null)
-                            .show()
+                        snack(btnLogin, error)
                     }
                 }
                 is DataState.Success -> {
-                    pvLoad.makeGone()
-                    btnLogin.makeVisible()
-                    tvUno.makeVisible()
-                    rlFields.makeVisible()
-                    if (it.data == "0") {
-                        Snackbar.make(btnLogin, "Этот email уже занят", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
+                    showContent()
+                    if (it.data == EMAIL_IS_USED) {
+                        snack(btnLogin, R.string.email_is_already_used)
                     } else {
                         loginViewModel.setToken(it.data)
                         openMainScreen()
@@ -116,35 +94,20 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         loginViewModel.loginToken.observe(this, {
             when (it) {
                 is DataState.Loading -> {
-                    pvLoad.makeVisible()
-                    btnLogin.makeGone()
-                    tvUno.makeGone()
-                    rlFields.makeGone()
+
                 }
                 is DataState.Error -> {
                     it.exception.printStackTrace()
-                    pvLoad.makeGone()
-                    btnLogin.makeVisible()
-                    tvUno.makeVisible()
-                    rlFields.makeVisible()
+                    hideContent()
                     FieldConverter.getString(R.string.default_error)?.let { error ->
-                        Snackbar.make(btnLogin, error, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null)
-                            .show()
+                        snack(btnLogin, error)
                     }
                 }
                 is DataState.Success -> {
-                    pvLoad.makeGone()
-                    btnLogin.makeVisible()
-                    tvUno.makeVisible()
-                    rlFields.makeVisible()
-                    if (it.data == "0") {
-                        Snackbar.make(
-                            btnLogin,
-                            "Возникла ошибка при авторизации",
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction("Action", null).show()
+                    showContent()
+                    if (it.data == EMAIL_IS_USED) {
+                        snack(btnLogin, R.string.error_on_auth)
+
                     } else {
                         loginViewModel.setToken(it.data)
                         openMainScreen()
@@ -153,6 +116,30 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
             }
         }
         )
+    }
+
+    private fun hideContent() {
+        pvLoad.makeVisible()
+        btnLogin.makeGone()
+        tvUno.makeGone()
+        rlFields.makeGone()
+    }
+
+    private fun showContent() {
+        pvLoad.makeGone()
+        btnLogin.makeVisible()
+        tvUno.makeVisible()
+        rlFields.makeVisible()
+    }
+
+    private fun showLoginMode() {
+        btnLogin.text = getString(R.string.login)
+        tvUno.text = getString(R.string.account_no_exist)
+    }
+
+    private fun showRegMode() {
+        btnLogin.text = getString(R.string.register)
+        tvUno.text = getString(R.string.is_account_exist)
     }
 
     private fun openMainScreen() {

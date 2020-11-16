@@ -1,18 +1,18 @@
 package com.deadely.itgenglish.ui.education
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
 import com.deadely.itgenglish.R
+import com.deadely.itgenglish.base.BaseFragment
 import com.deadely.itgenglish.extensions.setActivityTitle
 
-class EducationFragment : Fragment(R.layout.fragment_education) {
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
+class EducationFragment : BaseFragment(R.layout.fragment_education) {
 
-    private fun initView() {
+    override fun initView() {
         setActivityTitle(R.string.education)
     }
+
+    override fun setListeners() {}
+
+    override fun initObserver() {}
+
+    override fun getExtras() {}
 }

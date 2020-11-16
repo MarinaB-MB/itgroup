@@ -21,6 +21,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
             } else {
                 openRegisterScreen()
             }
+            finish()
         })
     }
 

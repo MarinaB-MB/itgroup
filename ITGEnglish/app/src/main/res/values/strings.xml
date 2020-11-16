@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Crimea3d English</string>
-    <string name="action_settings">Личный кабинет</string>
+    <string name="app_name">Crimean English</string>
+    <string name="personal_account">Личный кабинет</string>
 
     <string name="menu_education">education</string>
     <string name="menu_dictionary">dictionary</string>
@@ -12,6 +12,7 @@
     <string name="grammar">Грамматика</string>
     <string name="favorite">Избранное</string>
 
+    // login / register
     <string name="register">Регистрация</string>
     <string name="small_password">password</string>
     <string name="password">Password</string>
@@ -24,5 +25,13 @@
     <string name="valid_email_error">Введите корректный email</string>
     <string name="password_length_email_error">Длина пароля должна быть больше 5 символов</string>
     <string name="default_error">Возникла ошибка. Попробуйте еще раз</string>
+    <string name="account_title">Личный кабинет</string>
+
+    <string name="hint">Поиск</string>
+    <string name="happened_error">Возникла ошибка попробуйте еще раз</string>
+    <string name="error_on_auth">Возникла ошибка при авторизации</string>
+    <string name="action">Action</string>
+    <string name="email_is_already_used">Этот email уже занят</string>
+    <string name="support_doesnt_work">Поддержка пока не доступна</string>
 
 </resources>

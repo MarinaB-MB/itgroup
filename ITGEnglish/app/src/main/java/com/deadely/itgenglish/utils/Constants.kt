@@ -21,3 +21,7 @@ const val TOKEN = "token"
 
 const val GET_AUTH_TOKEN = "0"
 const val GET_LOGIN = "1"
+
+
+// just values
+const val EMAIL_IS_USED = "0"
