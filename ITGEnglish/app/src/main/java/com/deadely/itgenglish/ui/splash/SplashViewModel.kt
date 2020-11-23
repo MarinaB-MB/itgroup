@@ -13,6 +13,7 @@ import com.deadely.itgenglish.utils.PreferencesManager.get
 import com.deadely.itgenglish.utils.TOKEN
 import dagger.hilt.android.qualifiers.ApplicationContext
 
+
 class SplashViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     @Assisted private val savedStateHandle: SavedStateHandle

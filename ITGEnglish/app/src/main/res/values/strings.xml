@@ -33,5 +33,9 @@
     <string name="action">Action</string>
     <string name="email_is_already_used">Этот email уже занят</string>
     <string name="support_doesnt_work">Поддержка пока не доступна</string>
+    <string name="years">Сколько Вам лет?</string>
+    <string name="_18">18</string>
+    <string name="gender">Укажите Ваш гендер</string>
+    <string name="male">мужской</string>
 
 </resources>

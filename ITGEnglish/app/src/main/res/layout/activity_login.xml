@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <RelativeLayout
             android:id="@+id/rlFields"
             android:layout_width="match_parent"
@@ -102,35 +103,124 @@
                 android:maxLength="35"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etPassword"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/ivYear"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_baseline_access_time_24" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toEndOf="@id/ivYear"
+                    android:fontFamily="@font/rubik"
+                    android:text="@string/years"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/etYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rlYear"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:fontFamily="@font/rubik"
+                android:hint="@string/_18"
+                android:inputType="textPassword"
+                android:maxLength="35"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etYear"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/ivGender"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_gender" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toEndOf="@id/ivGender"
+                    android:fontFamily="@font/rubik"
+                    android:text="@string/gender"
+                    android:textSize="18dp" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/etGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rlGender"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:fontFamily="@font/rubik"
+                android:hint="@string/male"
+                android:inputType="textPassword"
+                android:maxLength="35"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvUno"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btnLogin"
-            android:fontFamily="@font/rubik"
-            android:paddingVertical="@dimen/activity_horizontal_margin"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="@string/is_account_exist" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/rlFields">
 
-        <Button
-            android:id="@+id/btnLogin"
-            style="@style/RoundedButtonWithWhiteText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/rubik"
-            android:paddingVertical="10dp"
-            android:text="@string/login"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvUno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btnLogin"
+                android:fontFamily="@font/rubik"
+                android:paddingVertical="@dimen/activity_horizontal_margin"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="@string/is_account_exist" />
 
+            <Button
+                android:id="@+id/btnLogin"
+                style="@style/RoundedButtonWithWhiteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:enabled="false"
+                android:fontFamily="@font/rubik"
+                android:paddingVertical="10dp"
+                android:text="@string/login"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/pvLoad"

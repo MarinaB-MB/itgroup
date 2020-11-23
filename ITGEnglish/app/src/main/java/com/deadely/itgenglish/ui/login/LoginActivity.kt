@@ -40,7 +40,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         btnLogin.setOnClickListener {
             if (loginViewModel.isEmailValid(etEmail.text.toString()) && loginViewModel.isPasswordValid(
                     etPassword.text.toString()
-                )
+                ) /*&& loginViewModel.isYearValid(etYear.text.toString()&& loginViewModel.isCategoryValid())*/
             ) {
                 if (isLogin) {
                     loginViewModel.login(etEmail.text.toString(), etPassword.text.toString())
@@ -76,9 +76,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 is DataState.Error -> {
                     it.exception.printStackTrace()
                     showContent()
-                    FieldConverter.getString(R.string.default_error)?.let { error ->
-                        snack(btnLogin, error)
-                    }
+                    snack(btnLogin, FieldConverter.getString(R.string.default_error))
                 }
                 is DataState.Success -> {
                     showContent()
@@ -99,9 +97,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
                 is DataState.Error -> {
                     it.exception.printStackTrace()
                     hideContent()
-                    FieldConverter.getString(R.string.default_error)?.let { error ->
-                        snack(btnLogin, error)
-                    }
+                    snack(btnLogin, FieldConverter.getString(R.string.default_error))
                 }
                 is DataState.Success -> {
                     showContent()
@@ -135,11 +131,15 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     private fun showLoginMode() {
         btnLogin.text = getString(R.string.login)
         tvUno.text = getString(R.string.account_no_exist)
+        rlYear.makeGone()
+        etYear.makeGone()
     }
 
     private fun showRegMode() {
         btnLogin.text = getString(R.string.register)
         tvUno.text = getString(R.string.is_account_exist)
+        rlYear.makeVisible()
+        etYear.makeVisible()
     }
 
     private fun openMainScreen() {

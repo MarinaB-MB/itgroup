@@ -18,10 +18,10 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
         splashViewModel.isLogin.observe(this, {
             if (it) {
                 openMainScreen()
+                finish()
             } else {
                 openRegisterScreen()
             }
-            finish()
         })
     }
 
