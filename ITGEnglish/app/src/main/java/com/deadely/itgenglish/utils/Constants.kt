@@ -21,6 +21,8 @@ const val TOKEN = "token"
 
 const val GET_AUTH_TOKEN = "0"
 const val GET_LOGIN = "1"
+const val GET_FAVORITE_LIST = "2"
+const val POST_AUDIO = "3"
 
 
 // just values

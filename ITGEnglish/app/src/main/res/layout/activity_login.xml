@@ -10,18 +10,20 @@
     android:overScrollMode="never"
     android:padding="16dp"
     tools:context=".ui.login.LoginActivity"
-    tools:ignore="SpUsage,ContentDescription,Autofill">
+    tools:ignore="SpUsage,ContentDescription">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
 
 
         <RelativeLayout
             android:id="@+id/rlFields"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:background="@drawable/bg_white_rounded"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
             android:paddingVertical="50dp">
@@ -60,6 +62,8 @@
                 android:hint="@string/example_email"
                 android:inputType="textEmailAddress"
                 android:maxLength="35"
+                android:nextFocusForward="@id/etPassword"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -101,6 +105,8 @@
                 android:hint="@string/small_password"
                 android:inputType="textPassword"
                 android:maxLength="35"
+                android:nextFocusForward="@id/etYear"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -138,9 +144,12 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:fontFamily="@font/rubik"
+                android:digits="1234567890"
                 android:hint="@string/_18"
-                android:inputType="textPassword"
-                android:maxLength="35"
+                android:inputType="textNoSuggestions"
+                android:maxLength="3"
+                android:nextFocusForward="@id/etGender"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -180,56 +189,60 @@
                 android:ems="10"
                 android:fontFamily="@font/rubik"
                 android:hint="@string/male"
-                android:inputType="textPassword"
+                android:inputType="textNoSuggestions"
                 android:maxLength="35"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
-
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/rlFields">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvUno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btnLogin"
-                android:fontFamily="@font/rubik"
-                android:paddingVertical="@dimen/activity_horizontal_margin"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="@string/is_account_exist" />
-
-            <Button
-                android:id="@+id/btnLogin"
-                style="@style/RoundedButtonWithWhiteText"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:enabled="false"
-                android:fontFamily="@font/rubik"
-                android:paddingVertical="10dp"
-                android:text="@string/login"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvUno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:paddingVertical="@dimen/activity_horizontal_margin"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="@string/is_account_exist" />
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    style="@style/RoundedButtonWithWhiteText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:fontFamily="@font/rubik"
+                    android:text="@string/login"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/pvLoad"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:indeterminateDrawable="@drawable/progress_bar"
             android:progressDrawable="@drawable/progress_bar"
             android:visibility="gone" />
-    </RelativeLayout>
+
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

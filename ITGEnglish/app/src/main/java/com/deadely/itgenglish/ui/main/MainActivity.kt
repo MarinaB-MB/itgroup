@@ -13,9 +13,11 @@ import com.deadely.itgenglish.R
 import com.deadely.itgenglish.base.BaseActivity
 import com.deadely.itgenglish.extensions.snack
 import com.deadely.itgenglish.ui.account.AccountActivity
-import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -26,12 +28,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun setListeners() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawerLayout)
-        val navView: NavigationView = findViewById(R.id.navView)
         val navController = findNavController(R.id.navController)
-
-        fab.setOnClickListener { view ->
-            snack(view, R.string.support_doesnt_work)
-        }
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_education, R.id.nav_dictionary, R.id.nav_grammar, R.id.nav_favorite
@@ -51,9 +48,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_personal_account -> {
-//                snack(fab, R.string.personal_account)
                 startActivity(Intent(this, AccountActivity::class.java))
                 return true
+            }
+            R.id.action_support -> {
+                snack(navView, R.string.support_doesnt_work)
             }
         }
         return super.onOptionsItemSelected(item)

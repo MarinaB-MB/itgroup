@@ -40,14 +40,19 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         btnLogin.setOnClickListener {
             if (loginViewModel.isEmailValid(etEmail.text.toString()) && loginViewModel.isPasswordValid(
                     etPassword.text.toString()
-                ) /*&& loginViewModel.isYearValid(etYear.text.toString()&& loginViewModel.isCategoryValid())*/
+                ) &&
+                loginViewModel.isFieldValid(etYear.text.toString()) && loginViewModel.isFieldValid(
+                    etGender.text.toString()
+                )
             ) {
                 if (isLogin) {
                     loginViewModel.login(etEmail.text.toString(), etPassword.text.toString())
                 } else {
                     loginViewModel.getAuthToken(
                         etEmail.text.toString(),
-                        etPassword.text.toString()
+                        etPassword.text.toString(),
+                        etYear.text.toString(),
+                        etGender.text.toString()
                     )
                 }
             }
@@ -133,6 +138,8 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         tvUno.text = getString(R.string.account_no_exist)
         rlYear.makeGone()
         etYear.makeGone()
+        rlGender.makeGone()
+        etGender.makeGone()
     }
 
     private fun showRegMode() {
@@ -140,6 +147,8 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         tvUno.text = getString(R.string.is_account_exist)
         rlYear.makeVisible()
         etYear.makeVisible()
+        rlGender.makeVisible()
+        etGender.makeVisible()
     }
 
     private fun openMainScreen() {

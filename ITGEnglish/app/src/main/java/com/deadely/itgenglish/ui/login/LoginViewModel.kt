@@ -54,9 +54,9 @@ class LoginViewModel @ViewModelInject constructor(
         mIsLogin.postValue(preferences[IS_LOGIN, false])
     }
 
-    fun getAuthToken(email: String, password: String) {
+    fun getAuthToken(email: String, password: String, years: String, gender: String) {
         viewModelScope.launch {
-            repository.getAuth(email, password)
+            repository.getAuth(email, password, years, gender)
                 .onEach { dataState -> subscribeData(dataState, GET_AUTH_TOKEN) }
                 .launchIn(viewModelScope)
         }
@@ -115,6 +115,22 @@ class LoginViewModel @ViewModelInject constructor(
         }
     }
 
+    fun isFieldValid(years: String): Boolean {
+        return when {
+            isLogin.value == true -> {
+                mValidError.postValue(null)
+                true
+            }
+            years.trim().isEmpty() -> {
+                mValidError.postValue(FieldConverter.getString(R.string.empty_error))
+                false
+            }
+            else -> {
+                mValidError.postValue(null)
+                true
+            }
+        }
+    }
 
     fun isPasswordValid(password: String): Boolean {
         return when {
