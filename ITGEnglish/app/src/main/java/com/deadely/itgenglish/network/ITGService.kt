@@ -17,5 +17,5 @@ interface ITGService {
     suspend fun login(@Body user: User): String
 
     @POST(SEND_AUDIO)
-    suspend fun sendAudio(@Body requestBody: RequestBody): Boolean
+    suspend fun sendAudio(@Body requestBody: RequestBody): String
 }

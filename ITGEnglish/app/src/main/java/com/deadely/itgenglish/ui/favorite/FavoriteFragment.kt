@@ -67,7 +67,7 @@ class FavoriteFragment : BaseFragment(R.layout.fragment_favorite) {
             if (initStatus == TextToSpeech.SUCCESS) {
                 tts.language = Locale.ENGLISH
                 tts.setPitch(1.3f)
-                tts.setSpeechRate(1f)
+                tts.setSpeechRate(0.5f)
                 ttsEnabled = true
             } else {
                 snack(rvWords, getString(R.string.happened_error))
@@ -107,19 +107,24 @@ class FavoriteFragment : BaseFragment(R.layout.fragment_favorite) {
                 }
                 is DataState.Success -> {
                     wordsAdapter.setData(it.data)
+                    checkList(it.data)
                 }
             }
         })
         viewModel.filteredList.observe(viewLifecycleOwner, {
             wordsAdapter.setData(it)
-            if (it.isNullOrEmpty()) {
-                ivEmptyList.makeVisible()
-                rvWords.makeGone()
-            } else {
-                ivEmptyList.makeGone()
-                rvWords.makeVisible()
-            }
+            checkList(it)
         })
+    }
+
+    fun checkList(list: List<Word>) {
+        if (list.isNullOrEmpty()) {
+            ivEmptyList.makeVisible()
+            rvWords.makeGone()
+        } else {
+            ivEmptyList.makeGone()
+            rvWords.makeVisible()
+        }
     }
 
     override fun getExtras() {

@@ -9,4 +9,6 @@ abstract class BaseViewModel : ViewModel() {
     fun addDisposable(disposable: Disposable?) {
         disposable?.let { CompositeDisposable().add(it) }
     }
+
+
 }

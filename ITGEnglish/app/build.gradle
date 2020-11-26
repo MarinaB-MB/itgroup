@@ -99,11 +99,15 @@ dependencies {
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 
     //rx
-    implementation  "com.jakewharton.rxbinding2:rxbinding:2.0.0"
+    implementation "com.jakewharton.rxbinding2:rxbinding:2.0.0"
     //Rx
     final RX_ANDROID_VERSION = '2.1.1'
     final RX_JAVA_VERSION = '2.1.8'
     implementation "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
     implementation "io.reactivex.rxjava2:rxjava:$RX_JAVA_VERSION"
+
+    //chuck
+    debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 
 }

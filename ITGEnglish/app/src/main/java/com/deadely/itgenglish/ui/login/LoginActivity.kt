@@ -97,7 +97,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         loginViewModel.loginToken.observe(this, {
             when (it) {
                 is DataState.Loading -> {
-
+                    hideContent()
                 }
                 is DataState.Error -> {
                     it.exception.printStackTrace()
@@ -154,6 +154,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
     private fun openMainScreen() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     override fun getExtras() {}

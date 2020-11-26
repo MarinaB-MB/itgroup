@@ -1,5 +1,5 @@
 package com.deadely.itgenglish.ui.grammar
 
-import androidx.lifecycle.ViewModel
+import com.deadely.itgenglish.base.BaseViewModel
 
-class GrammarViewModel : ViewModel()
+class GrammarViewModel : BaseViewModel()

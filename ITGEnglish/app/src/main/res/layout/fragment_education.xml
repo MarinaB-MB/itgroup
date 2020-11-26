@@ -3,33 +3,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.dictionary.DictionaryFragment">
+    tools:context=".ui.dictionary.DictionaryFragment"
+    tools:ignore="ContentDescription">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <LinearLayout
+        <TextView
+            android:id="@+id/tvAsk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/ivVolume"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="string/example_email@string/example_email@string/example_email@string/example_email@string/example_email@string/example_email@string/example_email" />
+
+        <ImageView
+            android:id="@+id/ivVolume"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_baseline_volume_up_24" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#17000000" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ivPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_baseline_mic_off_24" />
 
-            <ImageView
-                android:id="@+id/ivPlay"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_baseline_mic_off_24" />
-        </RelativeLayout>
-    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/press_btn_and_say"
+            android:textAlignment="center" />
+
+        <ProgressBar
+            android:id="@+id/pvLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:progressDrawable="@drawable/progress_bar"
+            android:visibility="gone" />
+    </RelativeLayout>
 </LinearLayout>

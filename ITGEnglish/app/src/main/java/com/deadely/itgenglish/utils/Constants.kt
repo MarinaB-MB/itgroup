@@ -2,14 +2,16 @@ package com.deadely.itgenglish.utils
 
 // result scrren
 const val RESULT_OK = -1
+const val LOGOUT = 1000
 
 // start screen
 const val START_LOGIN_SCREEN = 1
+const val OPEN_ACCOUNT_SCREEN = 2
 
 // urls
 const val BASE_URL = "http://itgsite.somee.com/"
 
-const val SEND_AUDIO = "api/verify"
+const val SEND_AUDIO = "sound/verify"
 const val AUTH = "Auth/Register"
 const val LOGIN = "Auth/Login"
 const val GET_AUDIO = "api/audio"
@@ -27,3 +29,4 @@ const val POST_AUDIO = "3"
 
 // just values
 const val EMAIL_IS_USED = "0"
+const val LESSON = "LESSON"

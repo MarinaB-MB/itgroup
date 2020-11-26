@@ -26,14 +26,20 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
 
     private fun openRegisterScreen() {
         Handler().postDelayed(
-            { startActivity(Intent(this@SplashActivity, LoginActivity::class.java)) },
+            {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                finish()
+            },
             2 * 1000.toLong()
         )
     }
 
     private fun openMainScreen() {
         Handler().postDelayed(
-            { startActivity(Intent(this@SplashActivity, MainActivity::class.java)) },
+            {
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                finish()
+            },
             2 * 1000.toLong()
         )
     }

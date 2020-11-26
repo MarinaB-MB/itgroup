@@ -60,10 +60,11 @@ class Repository @Inject constructor(private val api: ITGService, private val db
         db.getFavoriteDao().deleteFavos(word.mapToDBEntity())
     }
 
-    suspend fun sendAudio(audioFile: File): Flow<DataState<Boolean>> = flow {
+    suspend fun sendAudio(audioFile: File): Flow<DataState<String>> = flow {
         try {
             emit(DataState.Loading)
-            val reqFile: RequestBody = audioFile.asRequestBody("audio/*".toMediaTypeOrNull())
+            val reqFile: RequestBody =
+                audioFile.asRequestBody("application/json".toMediaTypeOrNull())
             val data = api.sendAudio(reqFile)
             emit(DataState.Success(data))
         } catch (e: Exception) {

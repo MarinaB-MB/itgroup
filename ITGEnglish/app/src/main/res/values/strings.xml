@@ -38,4 +38,10 @@
     <string name="gender">Укажите Ваш гендер</string>
     <string name="male">мужской</string>
 
+    <string name="lessons">Уроки</string>
+    <string name="press_btn_and_say">Зажмите картинку микрофона и говорите</string>
+    <string name="no_right">Неверно, попробуйте еще раз</string>
+    <string name="exit_account">Выйти из аккаунта</string>
+    <string name="end_of_lessons">Вопросы этого урока подошли к концу, можно переходить к следующему</string>
+
 </resources>

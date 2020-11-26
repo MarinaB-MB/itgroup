@@ -13,6 +13,9 @@ import com.deadely.itgenglish.R
 import com.deadely.itgenglish.base.BaseActivity
 import com.deadely.itgenglish.extensions.snack
 import com.deadely.itgenglish.ui.account.AccountActivity
+import com.deadely.itgenglish.ui.login.LoginActivity
+import com.deadely.itgenglish.utils.LOGOUT
+import com.deadely.itgenglish.utils.OPEN_ACCOUNT_SCREEN
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -48,7 +51,10 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_personal_account -> {
-                startActivity(Intent(this, AccountActivity::class.java))
+                startActivityForResult(
+                    Intent(this, AccountActivity::class.java),
+                    OPEN_ACCOUNT_SCREEN
+                )
                 return true
             }
             R.id.action_support -> {
@@ -66,4 +72,19 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun initObserver() {}
 
     override fun getExtras() {}
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            OPEN_ACCOUNT_SCREEN -> {
+                when (resultCode) {
+                    LOGOUT -> {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
 }

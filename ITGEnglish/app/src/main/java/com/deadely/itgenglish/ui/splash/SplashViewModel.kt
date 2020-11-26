@@ -10,6 +10,7 @@ import com.deadely.itgenglish.base.BaseViewModel
 import com.deadely.itgenglish.utils.IS_LOGIN
 import com.deadely.itgenglish.utils.PreferencesManager
 import com.deadely.itgenglish.utils.PreferencesManager.get
+import com.deadely.itgenglish.utils.PreferencesManager.set
 import com.deadely.itgenglish.utils.TOKEN
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -25,7 +26,7 @@ class SplashViewModel @ViewModelInject constructor(
     var isLogin: LiveData<Boolean> = mIsLogin
 
     init {
-        preferences[IS_LOGIN, isToken()]
+        preferences.set(IS_LOGIN, isToken())
         mIsLogin.postValue(preferences[IS_LOGIN, false])
     }
 

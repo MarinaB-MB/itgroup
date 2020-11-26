@@ -5,7 +5,12 @@ import android.media.MediaRecorder
 import android.os.Environment
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.deadely.itgenglish.base.BaseViewModel
+import com.deadely.itgenglish.model.Lessons
 import com.deadely.itgenglish.repository.Repository
 import com.deadely.itgenglish.utils.DataState
 import com.deadely.itgenglish.utils.POST_AUDIO
@@ -20,13 +25,24 @@ class EducationViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) :
-    ViewModel() {
+    BaseViewModel() {
+
     private var isRecording: Boolean = false
 
-    private var mValid = MutableLiveData<DataState<Boolean>>()
-    var isValid: LiveData<DataState<Boolean>> = mValid
+    private var mTranslatedText = MutableLiveData<DataState<String>>()
+    var translatedText: LiveData<DataState<String>> = mTranslatedText
+
+    private var mIsValid = MutableLiveData<Boolean>()
+    var isValid: LiveData<Boolean> = mIsValid
+
+    private var mIsRecord = MutableLiveData<Boolean>()
+    var isRecord: LiveData<Boolean> = mIsRecord
+
+    private var mLessons = MutableLiveData<Lessons>()
+    var lessons: LiveData<Lessons> = mLessons
 
     private var recorder: MediaRecorder? = null
+
     private val fileName = "${Environment.getExternalStorageDirectory().absolutePath}/output.3gpp"
 
     fun startRecord() {
@@ -46,6 +62,7 @@ class EducationViewModel @ViewModelInject constructor(
                 start()
             }
             isRecording = true
+            mIsRecord.postValue(isRecording)
         } else {
             stopRecord()
         }
@@ -62,10 +79,12 @@ class EducationViewModel @ViewModelInject constructor(
                 stop()
             }
             isRecording = false
+            mIsRecord.postValue(isRecording)
         }
+        sendAudio()
     }
 
-    fun sendAudio() {
+    private fun sendAudio() {
         val audioFile = File(fileName)
         viewModelScope.launch {
             repository.sendAudio(audioFile)
@@ -74,19 +93,23 @@ class EducationViewModel @ViewModelInject constructor(
         }
     }
 
+    fun compareData(string: String, text: String?) {
+        mIsValid.postValue(string.equals(text, ignoreCase = true))
+    }
+
     private fun subscribeData(dataState: DataState<Any>, code: String) {
         when (dataState) {
             is DataState.Loading -> {
                 when (code) {
                     POST_AUDIO -> {
-                        mValid.postValue(DataState.Loading)
+                        mTranslatedText.postValue(DataState.Loading)
                     }
                 }
             }
             is DataState.Error -> {
                 when (code) {
                     POST_AUDIO -> {
-                        mValid.postValue(DataState.Error(dataState.exception))
+                        mTranslatedText.postValue(DataState.Error(dataState.exception))
                     }
                 }
 
@@ -94,10 +117,14 @@ class EducationViewModel @ViewModelInject constructor(
             is DataState.Success -> {
                 when (code) {
                     POST_AUDIO -> {
-                        mValid.postValue(DataState.Success(dataState.data as Boolean))
+                        mTranslatedText.postValue(DataState.Success(dataState.data as String))
                     }
                 }
             }
         }
+    }
+
+    fun setLesson(data: Lessons) {
+        mLessons.postValue(data)
     }
 }
