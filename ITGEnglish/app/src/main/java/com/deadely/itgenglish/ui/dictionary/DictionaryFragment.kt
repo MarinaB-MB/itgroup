@@ -13,6 +13,7 @@ import com.deadely.itgenglish.extensions.makeVisible
 import com.deadely.itgenglish.extensions.setActivityTitle
 import com.deadely.itgenglish.extensions.snack
 import com.deadely.itgenglish.model.Word
+import com.deadely.itgenglish.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dictionary.*
 import kotlinx.android.synthetic.main.view_search.*
@@ -76,6 +77,22 @@ class DictionaryFragment : BaseFragment(R.layout.fragment_dictionary) {
             } else {
                 ivEmptyList.makeGone()
                 rvWords.makeVisible()
+            }
+        })
+        viewModel.favoriteList.observe(this, {
+            when (it) {
+                is DataState.Success -> {
+                    wordsAdapter.setData(it.data)
+                    if (it.data.isNullOrEmpty()) {
+                        ivEmptyList.makeVisible()
+                        rvWords.makeGone()
+                    } else {
+                        ivEmptyList.makeGone()
+                        rvWords.makeVisible()
+                    }
+                }
+                else -> {
+                }
             }
         })
     }

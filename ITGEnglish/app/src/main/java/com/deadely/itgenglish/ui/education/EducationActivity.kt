@@ -14,8 +14,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.deadely.itgenglish.R
 import com.deadely.itgenglish.base.BaseActivity
-import com.deadely.itgenglish.extensions.makeGone
-import com.deadely.itgenglish.extensions.makeVisible
 import com.deadely.itgenglish.extensions.snack
 import com.deadely.itgenglish.model.Ask
 import com.deadely.itgenglish.model.Lessons
@@ -28,7 +26,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class EducationActivity : BaseActivity(R.layout.fragment_map) {
+class EducationActivity : BaseActivity(R.layout.fragment_education) {
 
     private val viewModel: EducationViewModel by viewModels()
 
@@ -48,7 +46,6 @@ class EducationActivity : BaseActivity(R.layout.fragment_map) {
         initTts()
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -61,6 +58,8 @@ class EducationActivity : BaseActivity(R.layout.fragment_map) {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
+        pointTwo.setOnClickListener { }
+        pointOne.setOnClickListener { }
 //        ivPlay.setOnTouchListener { _, event ->
 //            when (event.actionMasked) {
 //                MotionEvent.ACTION_DOWN -> {
@@ -121,26 +120,26 @@ class EducationActivity : BaseActivity(R.layout.fragment_map) {
     override fun initObserver() {
         viewModel.isRecord.observe(this, {
             isRecording = it
-            if (it) {
-                ivPlay.setImageResource(R.drawable.ic_baseline_mic_on)
-            } else {
-                ivPlay.setImageResource(R.drawable.ic_baseline_mic_off_24)
-            }
+//            if (it) {
+//                ivPlay.setImageResource(R.drawable.ic_baseline_mic_on)
+//            } else {
+//                ivPlay.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//            }
         })
         viewModel.translatedText.observe(this, {
             when (it) {
                 is DataState.Loading -> {
-                    ivPlay.makeGone()
-                    pvLoad.makeVisible()
+//                    ivPlay.makeGone()
+//                    pvLoad.makeVisible()
                 }
                 is DataState.Error -> {
-                    ivPlay.makeVisible()
-                    pvLoad.makeGone()
-                    snack(ivPlay, "Возникла ошибка соединения. Попробуйте еще раз")
+//                    ivPlay.makeVisible()
+//                    pvLoad.makeGone()
+//                    snack(ivPlay, "Возникла ошибка соединения. Попробуйте еще раз")
                 }
                 is DataState.Success -> {
-                    ivPlay.makeVisible()
-                    pvLoad.makeGone()
+//                    ivPlay.makeVisible()
+//                    pvLoad.makeGone()
                     translatedAsk = it.data
                     viewModel.compareData(it.data, asks[index].text)
                 }
@@ -152,11 +151,11 @@ class EducationActivity : BaseActivity(R.layout.fragment_map) {
         })
         viewModel.isValid.observe(this, {
             if (!it) {
-                if (translatedAsk.isNullOrEmpty()) {
-                    snack(ivPlay, getString(R.string.no_right_def))
-                } else {
-                    snack(ivPlay, getString(R.string.no_right).format("\"$translatedAsk\" \n"))
-                }
+//                if (translatedAsk.isNullOrEmpty()) {
+//                    snack(ivPlay, getString(R.string.no_right_def))
+//                } else {
+//                    snack(ivPlay, getString(R.string.no_right).format("\"$translatedAsk\" \n"))
+//                }
             } else {
                 if (index + 1 == asks.size) {
                     val dialog = Dialog(this)

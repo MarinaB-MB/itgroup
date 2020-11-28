@@ -22,7 +22,4 @@ interface ITGService {
         @Header("Token") token: String,
         @Body body: Sound
     ): Any
-//    suspend fun sendAudio(@Header("Token") token: String, @Body body: ByteArray): String
-//    suspend fun sendAudio(@Header("Token") token: String, @Body body: RequestBody): String
-//    suspend fun sendAudio(@Header("Token") token: String, @Body sound: Gson?): String
 }

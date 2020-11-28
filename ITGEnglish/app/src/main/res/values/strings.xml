@@ -38,14 +38,24 @@
     <string name="gender">Укажите Ваш гендер</string>
     <string name="male">мужской</string>
 
-    <string name="lessons">Уроки</string>
+    <string name="lessons">Карта</string>
     <string name="press_btn_and_say">Зажмите картинку микрофона и говорите</string>
     <string name="no_right">%s Неверно, попробуйте еще раз</string>
-    <string name="no_right_def">Неверно, попробуйте еще раз</string>
+    <string name="no_right_def">Sorry. I didn\'t understand.</string>
+    <string name="no_right_def_one">What do you mean?</string>
     <string name="exit_account">Выйти из аккаунта</string>
     <string name="end_of_lessons">Вопросы этого урока подошли к концу, можно переходить к следующему</string>
     <string name="title_activity_top">TopActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+
+
+    <string name="dialog_city_shop_condition_start">Пора исполнить давнюю мечту и купить баночку арахисовой пасты. Всегда мечтал ее попробовать. \n Но где же ее найти?</string>
+    <string name="dialog_city_shop_condition_finish">Арахисовая паста оказалась действительно вкусной!</string>
+
+    <string name="dialog_city_observatory_condition_start">Это здание очень необычное! У меня в городе таких не было. \n Интресно что там находится?</string>
+    <string name="dialog_city_observatory_condition_finish">Никогда раньше не видел обсерваторий! \n Может начать изучать космос?</string>
+
+    <string name="dialog_access_denied">Пройдите предыдущий диалог для того чтобы открыть этот</string>
 
 </resources>
