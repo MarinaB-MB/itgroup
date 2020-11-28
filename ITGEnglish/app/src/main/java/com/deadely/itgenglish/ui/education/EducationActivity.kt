@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -26,11 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_dictionary.*
 import kotlinx.android.synthetic.main.fragment_education.*
 import java.util.*
-import kotlin.concurrent.schedule
 
 
 @AndroidEntryPoint
-class EducationActivity : BaseActivity(R.layout.fragment_education) {
+class EducationActivity : BaseActivity(R.layout.fragment_map) {
 
     private val viewModel: EducationViewModel by viewModels()
 
@@ -41,6 +39,7 @@ class EducationActivity : BaseActivity(R.layout.fragment_education) {
     var index: Int = 0
     private var ttsEnabled: Boolean = false
     private lateinit var tts: TextToSpeech
+    var translatedAsk = ""
 
     override fun initView() {
         title = getString(R.string.education)
@@ -48,6 +47,7 @@ class EducationActivity : BaseActivity(R.layout.fragment_education) {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         initTts()
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -61,33 +61,33 @@ class EducationActivity : BaseActivity(R.layout.fragment_education) {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setListeners() {
-        ivPlay.setOnTouchListener { _, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    if (!isRecording)
-                        startRecorder()
-                }
-                MotionEvent.ACTION_UP -> {
-                    if (isRecording) {
-                        stopRecorder()
-                    } else {
-                        Timer().schedule(1000) {
-                            if (isRecording) {
-                                stopRecorder()
-                            }
-                        }
-                    }
-                }
-            }
-            true
-        }
-        ivVolume.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                asks[index].text?.let { text -> sayWordGreater21(text) }
-            } else {
-                asks[index].text?.let { text -> sayWordUnder20(text) }
-            }
-        }
+//        ivPlay.setOnTouchListener { _, event ->
+//            when (event.actionMasked) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    if (!isRecording)
+//                        startRecorder()
+//                }
+//                MotionEvent.ACTION_UP -> {
+//                    if (isRecording) {
+//                        stopRecorder()
+//                    } else {
+//                        Timer().schedule(1000) {
+//                            if (isRecording) {
+//                                stopRecorder()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            true
+//        }
+//        ivVolume.setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                asks[index].text?.let { text -> sayWordGreater21(text) }
+//            } else {
+//                asks[index].text?.let { text -> sayWordUnder20(text) }
+//            }
+//        }
     }
 
     private fun startRecorder() {
@@ -136,10 +136,12 @@ class EducationActivity : BaseActivity(R.layout.fragment_education) {
                 is DataState.Error -> {
                     ivPlay.makeVisible()
                     pvLoad.makeGone()
+                    snack(ivPlay, "Возникла ошибка соединения. Попробуйте еще раз")
                 }
                 is DataState.Success -> {
                     ivPlay.makeVisible()
                     pvLoad.makeGone()
+                    translatedAsk = it.data
                     viewModel.compareData(it.data, asks[index].text)
                 }
             }
@@ -149,8 +151,12 @@ class EducationActivity : BaseActivity(R.layout.fragment_education) {
             initAsk()
         })
         viewModel.isValid.observe(this, {
-            if (it) {
-                snack(ivPlay, getString(R.string.no_right))
+            if (!it) {
+                if (translatedAsk.isNullOrEmpty()) {
+                    snack(ivPlay, getString(R.string.no_right_def))
+                } else {
+                    snack(ivPlay, getString(R.string.no_right).format("\"$translatedAsk\" \n"))
+                }
             } else {
                 if (index + 1 == asks.size) {
                     val dialog = Dialog(this)
@@ -174,12 +180,12 @@ class EducationActivity : BaseActivity(R.layout.fragment_education) {
     }
 
     private fun initAsk() {
-        tvAsk.text = asks[index].text
+//        tvAsk.text = asks[index].text
     }
 
     override fun getExtras() {
         intent?.extras?.let {
-            intent?.extras?.getBundle(LESSON)?.getParcelable<Lessons>(LESSON)
+            it.getBundle(LESSON)?.getParcelable<Lessons>(LESSON)
                 ?.let { lesson -> viewModel.setLesson(lesson) }
         }
     }

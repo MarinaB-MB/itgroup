@@ -40,8 +40,12 @@
 
     <string name="lessons">Уроки</string>
     <string name="press_btn_and_say">Зажмите картинку микрофона и говорите</string>
-    <string name="no_right">Неверно, попробуйте еще раз</string>
+    <string name="no_right">%s Неверно, попробуйте еще раз</string>
+    <string name="no_right_def">Неверно, попробуйте еще раз</string>
     <string name="exit_account">Выйти из аккаунта</string>
     <string name="end_of_lessons">Вопросы этого урока подошли к концу, можно переходить к следующему</string>
+    <string name="title_activity_top">TopActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 
 </resources>

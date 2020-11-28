@@ -9,6 +9,7 @@ const val START_LOGIN_SCREEN = 1
 const val OPEN_ACCOUNT_SCREEN = 2
 
 // urls
+//const val BASE_URL = "https://localhost:44345/"
 const val BASE_URL = "http://itgsite.somee.com/"
 
 const val SEND_AUDIO = "sound/verify"

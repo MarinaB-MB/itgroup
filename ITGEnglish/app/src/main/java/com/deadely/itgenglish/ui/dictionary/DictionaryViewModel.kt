@@ -15,13 +15,13 @@ class DictionaryViewModel @ViewModelInject constructor(private val repository: R
 
     private val staticList = mutableListOf(
         Word("0", "apple", "[yabloko]", "яблоко", false),
-        Word("1", "word", "[voed]", "слово", false),
+        Word("1", "word", "[vord]", "слово", false),
         Word("2", "you", "[ti]", "ты", false),
         Word("0", "apple", "[yabloko]", "яблоко", false),
-        Word("1", "word", "[voed]", "слово", false),
+        Word("1", "word", "[vord]", "слово", false),
         Word("2", "you", "[ti]", "ты", false),
         Word("0", "apple", "[yabloko]", "яблоко", false),
-        Word("1", "word", "[voed]", "слово", false),
+        Word("1", "word", "[vord]", "слово", false),
         Word("2", "you", "[ti]", "ты", false)
     )
 
@@ -29,7 +29,6 @@ class DictionaryViewModel @ViewModelInject constructor(private val repository: R
         getListWord()
     }
 
-    //замержить список favorite из бд и из сети
     private fun getListWord() {
         mListWords.postValue(staticList)
     }

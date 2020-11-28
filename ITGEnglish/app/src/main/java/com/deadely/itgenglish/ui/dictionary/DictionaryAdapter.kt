@@ -1,5 +1,6 @@
 package com.deadely.itgenglish.ui.dictionary
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class DictionaryAdapter : RecyclerView.Adapter<ViewHolder>() {
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        @SuppressLint("ClickableViewAccessibility")
         fun bind(word: Word) {
             with(itemView) {
                 tvWord.text = word.word

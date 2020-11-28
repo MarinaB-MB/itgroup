@@ -7,4 +7,9 @@ object FieldConverter {
     fun getString(id: Int): String {
         return App.instance.resources.getString(id)
     }
+
+    @JvmStatic
+    fun getColor(id: Int): Int {
+        return App.instance.resources.getColor(id)
+    }
 }

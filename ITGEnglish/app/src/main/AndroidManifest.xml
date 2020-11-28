@@ -17,6 +17,10 @@
         android:theme="@style/AppTheme.ITGEnglish"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.top.TopActivity"
+            android:label="@string/title_activity_top"
+            android:theme="@style/AppTheme.ITGEnglish.NoActionBar"></activity>
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen"
