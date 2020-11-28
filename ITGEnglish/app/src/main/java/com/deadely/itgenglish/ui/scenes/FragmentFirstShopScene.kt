@@ -177,6 +177,9 @@ class FragmentFirstShopScene : BaseFragment(R.layout.fragment_first_shop_scene) 
                     }
                 } else {
                     tvAsk.text = toFemaleSpeech(getString(R.string.no_right_def_one))
+                    Timer().schedule(1000) {
+                        initAsk()
+                    }
                 }
             } else {
                 if (index + 1 == asks.size) {

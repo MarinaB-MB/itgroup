@@ -100,11 +100,11 @@ class FragmentFirstShopSceneViewModel @ViewModelInject constructor(
     }
 
     fun compareData(newValue: String, initValue: String?) {
-        val formattedInitValue = initValue?.replace(",", "")?.replace(".", "")
+        val formattedInitValue =
+            initValue?.replace(",", "")?.replace(".", "")?.replace("!", "")?.replace("?", "")
         val parts = formattedInitValue?.split(" ")
         if (newValue.isNullOrEmpty()) {
-            mIsValid.postValue(true)
-//            mIsValid.postValue(false)
+            mIsValid.postValue(false)
             return
         }
         var result = formattedInitValue
@@ -113,8 +113,7 @@ class FragmentFirstShopSceneViewModel @ViewModelInject constructor(
                 result = formattedInitValue.replace(it, "")
             }
         }
-        mIsValid.postValue(false)
-//        mIsValid.postValue(!result?.trim().isNullOrEmpty())
+        mIsValid.postValue(result?.trim()?.isEmpty())
     }
 
     private fun sendAudio() {

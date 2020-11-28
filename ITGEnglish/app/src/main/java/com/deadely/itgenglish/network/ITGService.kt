@@ -1,10 +1,10 @@
 package com.deadely.itgenglish.network
 
-import com.deadely.itgenglish.model.Sound
 import com.deadely.itgenglish.model.User
 import com.deadely.itgenglish.utils.AUTH
 import com.deadely.itgenglish.utils.LOGIN
 import com.deadely.itgenglish.utils.SEND_AUDIO
+import com.google.gson.JsonObject
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -20,6 +20,6 @@ interface ITGService {
     @POST(SEND_AUDIO)
     suspend fun sendAudio(
         @Header("Token") token: String,
-        @Body body: Sound
-    ): Any
+        @Body body: JsonObject
+    ): String
 }

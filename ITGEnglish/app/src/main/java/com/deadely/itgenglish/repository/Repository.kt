@@ -4,16 +4,17 @@ import android.os.Build
 import com.deadely.itgenglish.database.AppDatabase
 import com.deadely.itgenglish.database.mapToDBEntity
 import com.deadely.itgenglish.database.mapToModelList
-import com.deadely.itgenglish.model.Sound
 import com.deadely.itgenglish.model.User
 import com.deadely.itgenglish.model.Word
 import com.deadely.itgenglish.network.ITGService
 import com.deadely.itgenglish.utils.DataState
+import com.google.gson.JsonObject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.util.Base64.getEncoder
 import javax.inject.Inject
+
 
 class Repository @Inject constructor(private val api: ITGService, private val db: AppDatabase) {
 
@@ -69,9 +70,12 @@ class Repository @Inject constructor(private val api: ITGService, private val db
                 base64 = getEncoder().encodeToString(bytes)
             }
 
-            val data: Any = api.sendAudio(
+            val value = JsonObject()
+            value.addProperty("content", base64)
+
+            val data: String = api.sendAudio(
                 token,
-                Sound(base64)
+                value
             )
             if (data is String) {
                 emit(DataState.Success(data))

@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.deadely.itgenglish.R
 import com.deadely.itgenglish.base.BaseFragment
+import com.deadely.itgenglish.extensions.makeGone
+import com.deadely.itgenglish.extensions.makeVisible
 import com.deadely.itgenglish.extensions.snack
 import com.deadely.itgenglish.ui.firstscrene.ConditionActivity
 import com.deadely.itgenglish.utils.*
@@ -14,8 +16,13 @@ import kotlinx.android.synthetic.main.fragment_city_map.*
 class MapCityFragment : BaseFragment(R.layout.fragment_city_map) {
     private val viewModel: MapCityViewModel by viewModels()
     var hasArtefakt = false
-    override fun initView() {
 
+    override fun initView() {
+        if (hasArtefakt) {
+            pasta.makeVisible()
+        } else {
+            pasta.makeGone()
+        }
     }
 
     override fun setListeners() {
@@ -48,6 +55,7 @@ class MapCityFragment : BaseFragment(R.layout.fragment_city_map) {
     override fun initObserver() {
         viewModel.isHasArtefakt.observe(this, {
             hasArtefakt = it
+            initView()
         })
     }
 
@@ -58,11 +66,7 @@ class MapCityFragment : BaseFragment(R.layout.fragment_city_map) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             OPEN_CONDITION_SCREEN -> {
-                when (resultCode) {
-                    FINISH -> {
-                        activity?.finish()
-                    }
-                }
+                viewModel.update()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

@@ -179,6 +179,9 @@ class FragmentFirstCurortScene : BaseFragment(R.layout.fragment_first_curort_sce
                     }
                 } else {
                     tvAsk.text = toFemaleSpeech(getString(R.string.no_right_def_one))
+                    Timer().schedule(1000) {
+                        initAsk()
+                    }
                 }
             } else {
                 if (index + 1 == asks.size) {

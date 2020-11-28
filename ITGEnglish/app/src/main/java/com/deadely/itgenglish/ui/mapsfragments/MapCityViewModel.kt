@@ -19,12 +19,17 @@ class MapCityViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) :
     BaseViewModel() {
+
+    fun update() {
+        mIsHasArtefakt.postValue(preferences.get(IS_HAS_PEANUT_BUTTER, false))
+    }
+
     private var mIsHasArtefakt = MutableLiveData<Boolean>()
     val isHasArtefakt: LiveData<Boolean> = mIsHasArtefakt
 
     private val preferences = PreferencesManager.defaultPrefs(context)
 
     init {
-        mIsHasArtefakt.postValue(preferences.get(IS_HAS_PEANUT_BUTTER, false))
+        update()
     }
 }

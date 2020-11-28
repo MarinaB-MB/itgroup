@@ -101,18 +101,12 @@ class FragmentFirstCurortSceneViewModel @ViewModelInject constructor(
         sendAudio()
     }
 
-    var i = 0
     fun compareData(newValue: String, initValue: String?) {
-        i++
-        val formattedInitValue = initValue?.replace(",", "")?.replace(".", "")
+        val formattedInitValue =
+            initValue?.replace(",", "")?.replace(".", "")?.replace("!", "")?.replace("?", "")
         val parts = formattedInitValue?.split(" ")
         if (newValue.isNullOrEmpty()) {
-            if (i == 3) {
-                mIsValid.postValue(false)
-            } else {
-                mIsValid.postValue(true)
-            }
-//            mIsValid.postValue(false)
+            mIsValid.postValue(false)
             return
         }
         var result = formattedInitValue
@@ -121,12 +115,7 @@ class FragmentFirstCurortSceneViewModel @ViewModelInject constructor(
                 result = formattedInitValue.replace(it, "")
             }
         }
-        if (i == 3) {
-            mIsValid.postValue(false)
-        } else {
-            mIsValid.postValue(true)
-        }
-//        mIsValid.postValue(!result?.trim().isNullOrEmpty())
+        mIsValid.postValue(result?.trim()?.isEmpty())
     }
 
     private fun sendAudio() {

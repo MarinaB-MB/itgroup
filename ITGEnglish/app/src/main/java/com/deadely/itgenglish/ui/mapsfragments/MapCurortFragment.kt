@@ -48,6 +48,7 @@ class MapCurortFragment : BaseFragment(R.layout.fragment_curort_map) {
     override fun initObserver() {
         viewModel.isHasArtefakt.observe(this, {
             hasArtefakt = it
+            initView()
         })
     }
 
@@ -58,11 +59,7 @@ class MapCurortFragment : BaseFragment(R.layout.fragment_curort_map) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             OPEN_CONDITION_SCREEN -> {
-                when (resultCode) {
-                    FINISH -> {
-                        activity?.finish()
-                    }
-                }
+                viewModel.update()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

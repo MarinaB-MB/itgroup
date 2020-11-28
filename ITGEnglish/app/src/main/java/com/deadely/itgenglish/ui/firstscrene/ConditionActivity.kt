@@ -1,6 +1,10 @@
 package com.deadely.itgenglish.ui.firstscrene
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.viewModels
 import com.deadely.itgenglish.R
 import com.deadely.itgenglish.base.BaseActivity
 import com.deadely.itgenglish.ui.scenes.FragmentFirstCurortScene
@@ -11,6 +15,9 @@ import kotlinx.android.synthetic.main.scene_shop.*
 
 @AndroidEntryPoint
 class ConditionActivity : BaseActivity(R.layout.scene_shop) {
+
+    private val viewModel: ConditionViewModel by viewModels()
+
     companion object {
         const val SHOP = 0
         const val OBSERVATORY = 1
@@ -53,8 +60,41 @@ class ConditionActivity : BaseActivity(R.layout.scene_shop) {
 
     private fun openScene() {
         if (isFinal) {
-            setResult(FINISH)
-            finish()
+            when (sceneNumber) {
+                SHOP -> {
+                    val dialog = Dialog(this)
+                    dialog.apply {
+                        setContentView(R.layout.next_artefakt_dialog)
+                        findViewById<TextView>(R.id.btnOk).setOnClickListener {
+                            dismiss()
+                        }
+                        findViewById<ImageView>(R.id.ivArtefakt).setImageResource(R.drawable.pasta)
+                        setOnDismissListener {
+                            viewModel.setArtefakt()
+                            setResult(FINISH)
+                            finish()
+                        }
+                    }
+                    dialog.show()
+                }
+                OBSERVATORY -> {
+//                    val dialog = Dialog(this)
+//                    dialog.apply {
+//                        setContentView(R.layout.next_artefakt_dialog)
+//                        findViewById<TextView>(R.id.btnOk).setOnClickListener {
+//                            dismiss()
+//                            finish()
+//                        }
+//                        findViewById<ImageView>(R.id.ivArtefakt).setImageResource(R.drawable.star)
+//                        setOnDismissListener {
+//                            finish()
+//                        }
+//                    }
+//                    dialog.show()
+//                    setResult(FINISH)
+//                    finish()
+                }
+            }
         } else {
             when (sceneNumber) {
                 SHOP -> {

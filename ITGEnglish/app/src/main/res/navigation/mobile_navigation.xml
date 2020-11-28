@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_education">
+    app:startDestination="@+id/nav_lessons">
 
     <fragment
-        android:id="@+id/nav_education"
+        android:id="@+id/nav_lessons"
         android:name="com.deadely.itgenglish.ui.lessons.LessonsFragment"
-        tools:layout="@layout/fragment_education" />
+        tools:layout="@layout/fragment_lessons" />
 
     <fragment
         android:id="@+id/nav_dictionary"

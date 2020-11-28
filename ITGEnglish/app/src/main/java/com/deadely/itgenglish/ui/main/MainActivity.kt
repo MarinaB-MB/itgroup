@@ -34,7 +34,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         val navController = findNavController(R.id.navController)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_education, R.id.nav_dictionary, R.id.nav_grammar, R.id.nav_favorite
+                R.id.nav_lessons, R.id.nav_dictionary, R.id.nav_grammar, R.id.nav_favorite
             ),
             drawerLayout
         )
